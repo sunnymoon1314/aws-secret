@@ -37,17 +37,17 @@ jobs:
           echo "Secret value Food is: $secret_value_food"
           echo "Secret value Location is: $secret_value_loc"
 
-retrieve_parameters:
-  runs-on: ubuntu-latest
-  steps:
-    - name: Configure AWS Credentials
-      uses: aws-actions/configure-aws-credentials@v2
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{ vars.REGION }}
+  retrieve_parameters:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ vars.REGION }}
 
-    - name: Get parameter object
-      run: |
-        parameter_value=$(aws ssm get-parameter --name luqman_phone --query Parameter.Value --output text)
-        echo "Luqman's phone model is: $parameter_value" 
+      - name: Get parameter object
+        run: |
+          parameter_value=$(aws ssm get-parameter --name luqman_phone --query Parameter.Value --output text)
+          echo "Luqman's phone model is: $parameter_value" 
