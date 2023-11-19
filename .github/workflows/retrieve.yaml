@@ -22,11 +22,12 @@ jobs:
       - name: Get Secret Object
         run: |
           secret_object=$(aws secretsmanager get-secret-value --secret-id prod/luqman/hobby --query SecretString --output json)
+          echo $secret_object
 
           # Parse specific keys from the secret object
-          secret_value_hobby=$(echo "$secret_object" | jq -r '.luqman_hobby')
-          secret_value_food=$(echo "$secret_object" | jq -r '.luqman_food')
-          secret_value_loc=$(echo "$secret_object" | jq -r '.luqman_location')
+          secret_value_hobby=$(echo "$secret_object" | jq -r '. | fromjson | .luqman_hobby')
+          secret_value_food=$(echo "$secret_object" | jq -r '. | fromjson | .luqman_food')
+          secret_value_loc=$(echo "$secret_object" | jq -r '. | fromjson | .luqman_location')
 
           echo "Secret value Hobby is: $secret_value_hobby"
           echo "Secret value Food is: $secret_value_food"
