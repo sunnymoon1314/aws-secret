@@ -1,0 +1,33 @@
+name: Retrieve AWS Secret
+
+on:
+  push:
+    branches:
+      - main
+      - master
+      - feature/*
+      - develop
+
+jobs:
+  retrieve_secret:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.REGION }}
+
+      - name: Get Secret Object
+        run: |
+          secret_object=$(aws secretsmanager get-secret-value --secret-id prod/luqman/hobby --query SecretString --output json)
+
+          # Parse specific keys from the secret object
+          secret_value_hobby=$(echo "$secret_object" | jq -r '.luqman_hobby')
+          secret_value_food=$(echo "$secret_object" | jq -r '.luqman_food')
+          secret_value_loc=$(echo "$secret_object" | jq -r '.luqman_location')
+
+          echo "Secret value Hobby is: $secret_value_hobby"
+          echo "Secret value Food is: $secret_value_food"
+          echo "Secret value Location is: $secret_value_loc"
