@@ -47,6 +47,9 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ vars.REGION }}
 
+      # Firstly, insert your parameter in AWS Systems Manager > Parameter Store
+      # Then, you can retrieve the parameters using aws ssm get-parameter command
+
       - name: Get parameter object
         run: |
           parameter_value=$(aws ssm get-parameter --name luqman_phone --query Parameter.Value --output text)
