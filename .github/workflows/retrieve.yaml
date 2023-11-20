@@ -52,5 +52,9 @@ jobs:
 
       - name: Get parameter object
         run: |
-          parameter_value=$(aws ssm get-parameter --name luqman_phone --query Parameter.Value --output text)
-          echo "Luqman's phone model is: $parameter_value" 
+          phone_value=$(aws ssm get-parameter --name luqman_phone --query Parameter.Value --output text)
+          echo "Luqman's phone model is: $phone_value" 
+
+          hobby_value=$(aws ssm get-parameter --name luqman_hobby --query Parameter.Value --output text)
+          echo "Luqman's hobby is: $hobby_value" 
+
