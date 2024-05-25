@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v2
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -31,8 +31,10 @@ jobs:
 
           # Parse specific keys from the secret object
           soon-secret-key=$(echo "$secret_object" | jq -r '. | fromjson | .soon-secret-key')
+          soon-secret-value=$(echo "$secret_object" | jq -r '. | fromjson | .soon-secret-value')
 
           echo "soon-secret-key is: $soon-secret-key"
+          echo "soon-secret-value is: $soon-secret-value"
 
   retrieve_parameters:
     runs-on: ubuntu-latest
@@ -49,5 +51,5 @@ jobs:
 
       - name: Get parameter object
         run: |
-          phone_value=$(aws ssm get-parameter --name soon-parameter-name --query Parameter.Value --output text)
+          soon-parameter-name=$(aws ssm get-parameter --name soon-parameter-name --query Parameter.Value --output text)
           echo "soon-parameter-name is: $soon-parameter-name" 
