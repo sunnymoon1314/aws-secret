@@ -27,22 +27,18 @@ jobs:
 
       - name: Get Secret Object
         run: |
-          secret_object=$(aws secretsmanager get-secret-value --secret-id prod/luqman/hobby --query SecretString --output json)
+          secret_object=$(aws secretsmanager get-secret-value --secret-id soon-secret-name --query SecretString --output json)
 
           # Parse specific keys from the secret object
-          secret_value_hobby=$(echo "$secret_object" | jq -r '. | fromjson | .luqman_hobby')
-          secret_value_food=$(echo "$secret_object" | jq -r '. | fromjson | .luqman_food')
-          secret_value_loc=$(echo "$secret_object" | jq -r '. | fromjson | .luqman_location')
+          soon-secret-key=$(echo "$secret_object" | jq -r '. | fromjson | .soon-secret-key')
 
-          echo "Secret value Hobby is: $secret_value_hobby"
-          echo "Secret value Food is: $secret_value_food"
-          echo "Secret value Location is: $secret_value_loc"
+          echo "soon-secret-key is: $soon-secret-key"
 
   retrieve_parameters:
     runs-on: ubuntu-latest
     steps:
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v2
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -53,9 +49,5 @@ jobs:
 
       - name: Get parameter object
         run: |
-          phone_value=$(aws ssm get-parameter --name luqman_phone --query Parameter.Value --output text)
-          echo "Luqman's phone model is: $phone_value" 
-
-          hobby_value=$(aws ssm get-parameter --name luqman_hobby --query Parameter.Value --output text)
-          echo "Luqman's hobby is: $hobby_value" 
-
+          phone_value=$(aws ssm get-parameter --name soon-parameter-name --query Parameter.Value --output text)
+          echo "soon-parameter-name is: $soon-parameter-name" 
