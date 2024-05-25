@@ -49,3 +49,4 @@ Useful link: https://docs.aws.amazon.com/systems-manager/latest/userguide/parame
 3. Give your parameter a name and value e.g. "app_name" with Data type = "String" and Value = "mysql_db_webapp"
 4. Create parameter.
 5. In Github, you can retrieve the secret by running a command like: ```parameter_value=$(aws ssm get-parameter --name app_name --query Parameter.Value --output text)```
+"# aws-secret" 
